@@ -1,0 +1,81 @@
+---
+import Base from '@/layouts/Base.astro';
+import { getSite } from '@/lib/content';
+const site = await getSite();
+---
+
+<Base
+  title={`Mentions légales — ${site.nom}`}
+  description="Mentions légales du site portfolio d'Adrien Lassau."
+  path="/mentions-legales"
+  noindex
+>
+  <section class="section" style="padding-top:calc(var(--nav-h) + 32px)">
+    <div class="wrap" style="max-width:70ch">
+      <p class="label">Informations légales</p>
+      <h1 class="t-section" style="margin:10px 0 24px">Mentions légales</h1>
+
+      <div class="legal">
+        <h2>Éditeur</h2>
+        <p>
+          {site.nom}, entrepreneur individuel.<br />
+          {site.zone}.<br />
+          Contact : <a href={`mailto:${site.email}`}>{site.email}</a><br />
+          SIRET : 910 792 761 00017 — TVA non applicable, article 293 B du
+          Code général des impôts (franchise en base de TVA)
+        </p>
+
+        <h2>Directeur de la publication</h2>
+        <p>{site.nom}.</p>
+
+        <h2>Hébergement</h2>
+        <p>Netlify, Inc. — 512 2nd Street, Suite 200, San Francisco, CA 94107, USA.</p>
+
+        <h2>Propriété intellectuelle</h2>
+        <p>
+          L'ensemble des contenus (photographies, vidéos, textes, identité visuelle)
+          présents sur ce site est la propriété de {site.nom} ou de ses clients, et
+          protégé par le droit d'auteur. Toute reproduction sans autorisation écrite
+          préalable est interdite.
+        </p>
+
+        <h2>Données personnelles</h2>
+        <p>
+          Le formulaire de contact collecte le nom, l'adresse e-mail et le message
+          transmis, aux seules fins de répondre à la demande. Ces données ne sont ni
+          cédées ni revendues. Conformément au RGPD, vous disposez d'un droit d'accès,
+          de rectification et de suppression en écrivant à
+          <a href={`mailto:${site.email}`}>{site.email}</a>.
+          Aucun cookie de mesure d'audience ou de publicité n'est déposé.
+        </p>
+
+        <p style="margin-top:32px">
+          <a href="/">&larr; Retour à l'accueil</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal h2 {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    margin: 28px 0 8px;
+  }
+  .legal p {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .legal a {
+    color: var(--cream);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

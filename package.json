@@ -1,0 +1,27 @@
+{
+  "name": "adrien-lassau-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "prebuild": "node scripts/gen-assets.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "standalone": "npm run build && node scripts/bundle-standalone.mjs",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.6.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@tailwindcss/vite": "^4.0.17",
+    "sharp": "^0.33.5",
+    "tailwindcss": "^4.0.17",
+    "typescript": "^5.8.2"
+  }
+}

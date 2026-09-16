@@ -1,0 +1,29 @@
+---
+import { getParcours, getSite } from '@/lib/content';
+const parcours = await getParcours();
+const site = await getSite();
+---
+
+<section class="section" aria-labelledby="parcours-title" data-section="#parcours">
+  <div class="wrap">
+    <p class="label reveal reveal--title" id="parcours-title">Parcours</p>
+
+    <div class="path reveal" data-stagger="70">
+      {
+        parcours.map((p) => (
+          <a
+            href={site.reseaux.linkedinUrl}
+            target="_blank"
+            rel="noopener"
+            class="path__row rippling"
+            aria-label={`${p.data.poste} — voir le profil LinkedIn d'Adrien (nouvel onglet)`}
+          >
+            <span class="path__period">{p.data.periode}</span>
+            <span class="path__role">{p.data.poste}</span>
+            <span class="path__desc">{p.data.description}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

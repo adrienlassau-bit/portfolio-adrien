@@ -1,0 +1,121 @@
+---
+import '@/styles/global.css';
+import Nav from '@/components/Nav.astro';
+import Lightbox from '@/components/Lightbox.astro';
+import { getSite, getOffres } from '@/lib/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  noindex?: boolean;
+}
+
+const site = await getSite();
+const offres = await getOffres();
+const { title, description, path = '/', noindex = false } = Astro.props;
+
+const pageTitle = title ?? site.seo.titre;
+const pageDesc = description ?? site.seo.description;
+const canonical = new URL(path, Astro.site ?? 'https://adrienlassau.com').href;
+const ogImage = new URL('/og.png', Astro.site ?? 'https://adrienlassau.com').href;
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.nom,
+  jobTitle: site.role,
+  email: `mailto:${site.email}`,
+  url: canonical,
+  sameAs: [site.reseaux.linkedinUrl],
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: site.zoneCourt,
+    addressCountry: 'FR',
+  },
+};
+
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Production de contenu social pour marques haut de gamme',
+  serviceType: 'Community management, photo, vidéo, reels, carrousels',
+  areaServed: site.zoneCourt,
+  provider: { '@type': 'Person', name: site.nom },
+  offers: offres.map((o) => ({
+    '@type': 'Offer',
+    name: o.data.titre,
+    description: o.data.description,
+    ...(o.data.prix.includes('150')
+      ? { price: '150', priceCurrency: 'EUR' }
+      : { priceSpecification: { '@type': 'PriceSpecification', valueAddedTaxIncluded: false } }),
+  })),
+};
+---
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0c0c0d" />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <meta name="author" content={site.nom} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.nom} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link
+      rel="preload"
+      href="/fonts/syne-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/jetbrainsmono-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
+
+    <script is:inline>
+      document.documentElement.classList.remove('no-js');
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Aller au contenu</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Lightbox />
+    <script>
+      import '@/scripts/app.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+---
+import { Picture } from 'astro:assets';
+import { getSite } from '@/lib/content';
+import filming from '@/assets/hero/filming.jpg';
+
+const site = await getSite();
+
+const lede =
+  "Le beau contenu ne suffit pas. Il faut qu'il retienne. Depuis 10 ans, je conçois, filme, monte et publie du contenu avec une obsession : faire exploser la visibilité de votre projet.";
+
+// Photo unique du hero (en attendant le vrai showreel vidéo, cf. commentaire
+// plus bas) : Adrien en tournage, en noir et blanc, qui repasse en couleur
+// au survol (cf. .hero__slide / .hero:hover .hero__slide en CSS).
+const heroPhoto = { src: filming, alt: 'Adrien Lassau en tournage, stabilisateur en main' };
+---
+
+<section class="hero" id="top">
+  <div class="hero__media" aria-hidden="true">
+    {/* Vrai showreel vidéo dès qu'il existe : déposer le fichier dans
+        /public/media/showreel.mp4 (+ poster), dé-commenter le <video> ci-dessous
+        et supprimer la photo au-dessus. */}
+    {
+      /*
+      <video
+        autoplay muted loop playsinline preload="metadata"
+        poster="/media/showreel-poster.jpg"
+      >
+        <source src="/media/showreel.mp4" type="video/mp4" />
+      </video>
+      */
+    }
+    <Picture
+      src={heroPhoto.src}
+      alt={heroPhoto.alt}
+      formats={['avif', 'webp']}
+      widths={[480, 768, 1080, 1600]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="hero__slide is-active"
+    />
+  </div>
+
+  <div class="wrap hero__inner">
+    <p class="hero__lede">{lede}</p>
+    <h1 class="hero__name" set:html={site.nom.replace(' ', '<br>')} />
+  </div>
+</section>
+
+{/* Mobile uniquement — CTA pleine largeur + ligne discipline sous le hero */}
+<div class="hero__below">
+  <div class="wrap">
+    <a href="#contact" class="pill pill--accent hero__cta rippling">Parler d'un projet</a>
+    <p class="label hero__strip">Contenu social · Photo · Vidéo<br />{site.zoneCourt}</p>
+  </div>
+</div>

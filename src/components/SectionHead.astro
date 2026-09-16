@@ -1,0 +1,15 @@
+---
+interface Props {
+  title: string;
+  num?: string; // "01" — numérotation retirée (jugée sans sens par Adrien)
+  label?: string; // "SÉLECTION 2025—2026"
+  id?: string;
+}
+const { title, num, label, id } = Astro.props;
+const meta = num ? (label ? `(${num}) ${label}` : `(${num})`) : label;
+---
+
+<div class="sec-head reveal reveal--title" {...id ? { id } : {}}>
+  <h2 class="t-section" set:html={title.replace(/\n/g, '<br>')} />
+  {meta && <span class="label">{meta}</span>}
+</div>

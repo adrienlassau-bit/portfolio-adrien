@@ -1,0 +1,27 @@
+[
+  {
+    "id": "config",
+    "nom": "Adrien Lassau",
+    "role": "Community manager & créateur de contenu",
+    "discipline": "CONTENU SOCIAL\nPHOTO · VIDÉO · ÉDITORIAL",
+    "email": "adrienlassau@gmail.com",
+    "zone": "Basé sur la Côte d'Azur, déplacements possibles",
+    "zoneCourt": "Côte d'Azur",
+    "annee": "2026",
+    "experienceAnnees": 10,
+    "reseaux": {
+      "linkedin": "/in/adrlassau",
+      "linkedinUrl": "https://www.linkedin.com/in/adrlassau/"
+    },
+    "chiffresGlobaux": [
+      { "valeur": "10", "legende": "ans dans la communication et le contenu" },
+      { "valeur": "500+", "legende": "reels et carrousels produits" },
+      { "valeur": "15+", "legende": "marques accompagnées" },
+      { "valeur": "4", "legende": "langues maîtrisées — français, anglais, espagnol, italien" }
+    ],
+    "seo": {
+      "titre": "Adrien Lassau — Community manager & créateur de contenu, Côte d'Azur",
+      "description": "Je produis le contenu que les marques haut de gamme n'ont pas le temps de faire : tournage, montage, reels et carrousels, publication. Dix ans de communication, aujourd'hui en direct. Basé sur la Côte d'Azur."
+    }
+  }
+]

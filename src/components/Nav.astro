@@ -1,0 +1,46 @@
+---
+import { getSite } from '@/lib/content';
+const site = await getSite();
+
+const links = [
+  { href: '#travaux', label: 'Travaux' },
+  { href: '#resultats', label: 'Résultats' },
+  { href: '#offre', label: 'Offre' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="nav" data-nav>
+  <div class="wrap nav__row">
+    <a href="#top" class="nav__name">{site.nom}</a>
+    <span class="nav__disc" set:html={site.discipline.replace(/\n/g, '<br>')} />
+    <nav class="nav__links" aria-label="Sections du site">
+      {links.map((l) => <a href={l.href} data-anchor={l.href}>{l.label}</a>)}
+    </nav>
+    <button
+      type="button"
+      class="pill nav__menu"
+      data-menu-open
+      aria-expanded="false"
+      aria-controls="menu-panel"
+    >
+      Menu
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu-panel" data-menu hidden>
+  <div class="wrap menu__top">
+    <span class="nav__name">{site.nom}</span>
+    <button type="button" class="menu__close" data-menu-close aria-label="Fermer le menu">
+      &times;
+    </button>
+  </div>
+  <nav class="wrap menu__links" aria-label="Sections du site">
+    {links.map((l) => <a href={l.href} data-menu-link>{l.label}</a>)}
+  </nav>
+  <div class="wrap menu__foot label">
+    <span>{site.zoneCourt.toUpperCase()}</span>
+    <span>&copy;{site.annee}</span>
+  </div>
+</div>

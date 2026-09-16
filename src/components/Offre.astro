@@ -1,0 +1,29 @@
+---
+import SectionHead from './SectionHead.astro';
+import { getOffres } from '@/lib/content';
+const offres = await getOffres();
+---
+
+<section class="section" id="offre" aria-labelledby="offre-title" data-section="#offre">
+  <div class="wrap">
+    <SectionHead title="Offre" id="offre-title" />
+
+    <div class="offers reveal" data-stagger="70">
+      {
+        offres.map((o, i) => (
+          <a href="#contact" class="offer rippling" aria-label={`Demander un devis — ${o.data.titre}`}>
+            <p class="offer__kicker">Offre {String(i + 1).padStart(2, '0')}</p>
+            <h3 class="offer__title">{o.data.titre}</h3>
+            <p class="offer__desc">{o.data.description}</p>
+            <div class="offer__foot">
+              <span class="offer__price">{o.data.prix}</span>
+              {o.data.condition && (
+                <span class="offer__cond">{o.data.condition.toUpperCase()}</span>
+              )}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

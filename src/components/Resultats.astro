@@ -1,0 +1,53 @@
+---
+import SectionHead from './SectionHead.astro';
+import { getEtudesDeCas } from '@/lib/content';
+
+const projets = await getEtudesDeCas();
+---
+
+<section class="section" id="resultats" aria-labelledby="resultats-title" data-section="#resultats">
+  <div class="wrap">
+    <SectionHead title="Résultats" id="resultats-title" />
+
+    <div class="cases reveal" data-stagger="70">
+      {
+        projets.map((p) => {
+          const nom = p.data.anonyme ? p.data.secteur : p.data.client;
+          return (
+            <article class="case rippling">
+              <div class="case__id">
+                <h3 class="case__client">
+                  {p.data.lien ? (
+                    <a href={p.data.lien} target="_blank" rel="noopener">
+                      {nom} <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : (
+                    nom
+                  )}
+                </h3>
+                <p class="case__sector">{p.data.secteur.toUpperCase()}</p>
+              </div>
+              <p class="case__period">
+                {p.data.debut}
+                <br />
+                {p.data.fin}
+                <br />
+                <span>{p.data.duree}</span>
+              </p>
+              <div class="case__figs">
+                {p.data.chiffres.map((c, i) => (
+                  <div>
+                    <div class:list={['t-fig', { accent: i === 0 }]} data-count>
+                      {c.valeur}
+                    </div>
+                    <div class="fig__legend">{c.legende.toUpperCase()}</div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

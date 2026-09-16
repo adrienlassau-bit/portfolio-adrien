@@ -1,0 +1,17 @@
+---
+import { getSite } from '@/lib/content';
+const site = await getSite();
+---
+
+<section class="stats" aria-label="Chiffres clés">
+  <div class="wrap stats__grid reveal" data-stagger="70">
+    {
+      site.chiffresGlobaux.map((c) => (
+        <div>
+          <div class="t-fig-global" data-count>{c.valeur}</div>
+          <div class="stat__legend">{c.legende}</div>
+        </div>
+      ))
+    }
+  </div>
+</section>

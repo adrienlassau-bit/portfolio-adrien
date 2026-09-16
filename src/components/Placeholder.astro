@@ -1,0 +1,17 @@
+---
+/**
+ * Bloc gris rayé 135° avec légende monospace décrivant le visuel attendu.
+ * Sert partout tant que les vrais médias ne sont pas fournis.
+ */
+interface Props {
+  label: string;
+  ratio?: string; // ex. "9 / 16", "16 / 9", "4 / 5"
+  class?: string;
+}
+const { label, ratio, class: klass } = Astro.props;
+const style = ratio ? `aspect-ratio:${ratio}` : undefined;
+---
+
+<div class:list={['ph', klass]} style={style} role="img" aria-label={label}>
+  <span set:html={label.replace(/\n/g, '<br>')} aria-hidden="true" />
+</div>

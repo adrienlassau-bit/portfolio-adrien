@@ -1,0 +1,79 @@
+---
+import { getSite } from '@/lib/content';
+const site = await getSite();
+
+const text =
+  "Décrivez-moi votre projet, votre échéance et le volume visé. Je réponds sous 24 h avec une proposition chiffrée. Basé sur la Côte d'Azur, déplacements possibles.";
+---
+
+<section
+  class="contact on-cream"
+  id="contact"
+  aria-labelledby="contact-title"
+  data-section="#contact"
+>
+  <div class="wrap contact__grid reveal">
+    <h2 class="t-contact contact__title" id="contact-title">
+      Le prochain<br />projet, c'est<br />le vôtre.
+    </h2>
+
+    <div class="contact__col">
+      <p class="contact__text">{text}</p>
+
+      <a class="contact__mail rippling" href={`mailto:${site.email}`}>{site.email}</a>
+
+      <form
+        class="contact__form"
+        method="get"
+        action={`mailto:${site.email}`}
+        data-form
+        data-mailto={site.email}
+        novalidate
+      >
+        <div class="field">
+          <label for="cf-nom">Nom / marque</label>
+          <input id="cf-nom" name="nom" type="text" autocomplete="organization" required />
+        </div>
+        <div class="field">
+          <label for="cf-email">E-mail</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="cf-msg">Échéance &amp; volume visé</label>
+          <textarea id="cf-msg" name="message" rows="3" required></textarea>
+        </div>
+
+        <div class="contact__actions">
+          <button type="submit" class="pill pill--solid rippling" data-submit>
+            Écrire un message
+          </button>
+          <a class="pill rippling" href={site.reseaux.linkedinUrl} target="_blank" rel="noopener">
+            LinkedIn &#8599;
+          </a>
+        </div>
+
+        <p class="form__status" data-status role="status" aria-live="polite"></p>
+        <noscript>
+          <p class="form__status">
+            Le formulaire nécessite JavaScript pour l'envoi direct — sinon écrivez à
+            {' '}<a href={`mailto:${site.email}`}>{site.email}</a>.
+          </p>
+        </noscript>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="foot on-cream">
+  <div class="wrap foot__row">
+    <span>
+      <span class="foot__mobile-hide">{site.nom} &mdash; </span>{site.zoneCourt}
+    </span>
+    <span class="foot__mobile-hide">
+      <a href={site.reseaux.linkedinUrl} target="_blank" rel="noopener">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="/mentions-legales">Mentions légales</a>
+    </span>
+    <span>&copy;{site.annee}</span>
+  </div>
+</footer>
