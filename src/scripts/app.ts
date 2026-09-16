@@ -331,24 +331,39 @@ if (carousel && counter) {
   let dragMoved = false;
   let startX = 0;
   let startScroll = 0;
+  let capturedPointerId: number | null = null;
   carousel.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'touch') return;
     dragging = true;
     dragMoved = false;
     startX = e.clientX;
     startScroll = carousel.scrollLeft;
-    carousel.setPointerCapture(e.pointerId);
-    carousel.classList.add('is-grabbing');
+    capturedPointerId = e.pointerId;
+    // Pas de setPointerCapture ici : appelé dès l'appui (avant de savoir
+    // s'il s'agit d'un glisser ou d'un simple clic), il redirigeait le
+    // `click` qui suit vers `.works__track` lui-même plutôt que vers la
+    // vignette réellement cliquée (un <div> n'a pas de lien à suivre — la
+    // vignette ne s'ouvrait donc jamais, même pour un clic sans aucun
+    // glisser). La capture est désormais posée seulement une fois le
+    // glisser confirmé, dans `pointermove` ci-dessous.
   });
   carousel.addEventListener('pointermove', (e) => {
     if (!dragging) return;
     const dx = e.clientX - startX;
-    if (Math.abs(dx) > 4) dragMoved = true;
-    carousel.scrollLeft = startScroll - dx;
+    if (!dragMoved && Math.abs(dx) > 10) {
+      dragMoved = true;
+      carousel.classList.add('is-grabbing');
+      if (capturedPointerId !== null) carousel.setPointerCapture(capturedPointerId);
+    }
+    if (dragMoved) carousel.scrollLeft = startScroll - dx;
   });
   const endDrag = () => {
     dragging = false;
     carousel.classList.remove('is-grabbing');
+    if (capturedPointerId !== null && carousel.hasPointerCapture(capturedPointerId)) {
+      carousel.releasePointerCapture(capturedPointerId);
+    }
+    capturedPointerId = null;
   };
   carousel.addEventListener('pointerup', endDrag);
   carousel.addEventListener('pointerleave', endDrag);
