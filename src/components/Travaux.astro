@@ -39,7 +39,7 @@ const earlyHref = 'https://www.instagram.com/early.fr/';
     <SectionHead title={'Travaux\nrécents'} id="travaux-title" />
 
     <div class="works reveal" data-stagger="60">
-      <div class="works__track" data-carousel data-autoplay="4000">
+      <div class="works__track" data-carousel>
         {
           cards.map((c, i) => {
             const img = c.srcKey ? localImages[c.srcKey] : undefined;
