@@ -41,10 +41,11 @@ const site = await getSite();
 
         <h2>Données personnelles</h2>
         <p>
-          Le formulaire de contact collecte le nom, l'adresse e-mail et le message
-          transmis, aux seules fins de répondre à la demande. Ces données ne sont ni
-          cédées ni revendues. Conformément au RGPD, vous disposez d'un droit d'accès,
-          de rectification et de suppression en écrivant à
+          Le bouton de contact n'envoie aucune donnée depuis ce site : il ouvre
+          directement la messagerie du visiteur avec un message pré-rempli (nom,
+          e-mail, échéance et volume visé), qu'il choisit ensuite d'envoyer ou non
+          depuis sa propre boîte mail. Aucune donnée personnelle n'est collectée,
+          stockée ou transmise à un tiers par ce site. Pour toute question, écrivez à
           <a href={`mailto:${site.email}`}>{site.email}</a>.
           Aucun cookie de mesure d'audience ou de publicité n'est déposé.
         </p>
