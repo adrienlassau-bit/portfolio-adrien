@@ -39,16 +39,14 @@ const serviceLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Production de contenu social pour marques haut de gamme',
-  serviceType: 'Community management, photo, vidéo, reels, carrousels',
+  serviceType: 'Community management, vidéo, reels, carrousels',
   areaServed: site.zoneCourt,
   provider: { '@type': 'Person', name: site.nom },
   offers: offres.map((o) => ({
     '@type': 'Offer',
     name: o.data.titre,
     description: o.data.description,
-    ...(o.data.prix.includes('150')
-      ? { price: '150', priceCurrency: 'EUR' }
-      : { priceSpecification: { '@type': 'PriceSpecification', valueAddedTaxIncluded: false } }),
+    priceSpecification: { '@type': 'PriceSpecification', valueAddedTaxIncluded: false },
   })),
 };
 ---

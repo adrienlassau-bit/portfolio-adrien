@@ -1,6 +1,6 @@
 ---
 titre: Shooting à la journée
-description: Photo et vidéo sur site, direction artistique, livraison retouchée sous une semaine.
-prix: "150 € / jour"
+description: Tournage vidéo sur site, direction artistique, livraison montée sous une semaine.
+prix: "prix sur devis"
 ordre: 2
 ---

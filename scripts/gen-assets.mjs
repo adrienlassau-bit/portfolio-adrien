@@ -31,7 +31,7 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
   <text x="72" y="150" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="6" fill="rgba(255,255,255,0.55)">ADRIEN LASSAU</text>
   <text x="68" y="360" font-family="Arial, sans-serif" font-weight="800" font-size="150" letter-spacing="-6" fill="#f2f0ed">ADRIEN</text>
   <text x="68" y="500" font-family="Arial, sans-serif" font-weight="800" font-size="150" letter-spacing="-6" fill="#f2f0ed">LASSAU</text>
-  <text x="72" y="600" font-family="Georgia, serif" font-size="20" letter-spacing="4" fill="rgba(255,255,255,0.55)">CONTENU SOCIAL · PHOTO · VIDÉO — CÔTE D'AZUR</text>
+  <text x="72" y="600" font-family="Georgia, serif" font-size="20" letter-spacing="4" fill="rgba(255,255,255,0.55)">CONTENU SOCIAL · VIDÉO — CÔTE D'AZUR</text>
 </svg>`;
 
 async function png(svg, size, name) {
