@@ -279,12 +279,29 @@ if (carousel && counter) {
     });
     return idx;
   };
+  // vignette actuellement survolée à la souris (null = on suit le défilement)
+  let hoveredIndex: number | null = null;
   const sync = () => {
-    currentIndex = closestIndex();
+    currentIndex = hoveredIndex ?? closestIndex();
     counter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${total}`;
   };
   carousel.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
   sync();
+  // le compteur indique le projet survolé ; dès que la souris quitte une
+  // vignette il revient à la position de défilement (souris uniquement, le
+  // tactile n'a pas de survol).
+  items.forEach((it, i) => {
+    it.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'touch') return;
+      hoveredIndex = i;
+      sync();
+    });
+    it.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'touch') return;
+      hoveredIndex = null;
+      sync();
+    });
+  });
 
   // Défilement automatique — en boucle, mis en pause dès que la personne
   // interagit (glisser, survol, tactile), désactivé sous prefers-reduced-motion.
