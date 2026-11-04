@@ -265,13 +265,21 @@ if (carousel && counter) {
   // vignettes comptent pour l'indexation et le compteur.
   const items = Array.from(carousel.querySelectorAll<HTMLElement>(':scope > .work'));
   const total = String(items.length).padStart(2, '0');
+  // Position de défilement qui amène une vignette au bord gauche du carrousel.
+  // PAS `offsetLeft` : il est mesuré depuis l'ancêtre positionné le plus
+  // proche, qui change une fois la section révélée à l'écran (la classe
+  // .reveal passe de transform à none) — il se retrouve alors décalé de la
+  // marge du site, et revenir à la 1re vignette visait une position fausse
+  // qui s'aimantait sur la 2e.
+  const startOf = (it: HTMLElement) =>
+    it.getBoundingClientRect().left - carousel.getBoundingClientRect().left + carousel.scrollLeft;
   // vignette dont le bord gauche est le plus proche du défilement courant.
   let currentIndex = 0;
   const closestIndex = () => {
     let idx = 0;
     let best = Infinity;
     items.forEach((it, i) => {
-      const d = Math.abs(it.offsetLeft - carousel.scrollLeft);
+      const d = Math.abs(startOf(it) - carousel.scrollLeft);
       if (d < best) {
         best = d;
         idx = i;
@@ -310,7 +318,7 @@ if (carousel && counter) {
     let timer: ReturnType<typeof setInterval> | null = null;
     const tick = () => {
       const next = (closestIndex() + 1) % items.length;
-      carousel.scrollTo({ left: items[next].offsetLeft, behavior: 'smooth' });
+      carousel.scrollTo({ left: startOf(items[next]), behavior: 'smooth' });
     };
     const play = () => {
       if (timer) return;
@@ -336,7 +344,7 @@ if (carousel && counter) {
   const nextBtn = worksWrap?.querySelector<HTMLButtonElement>('[data-carousel-next]');
   const goTo = (i: number) => {
     const idx = Math.max(0, Math.min(items.length - 1, i));
-    carousel.scrollTo({ left: items[idx].offsetLeft, behavior: reduced ? 'auto' : 'smooth' });
+    carousel.scrollTo({ left: startOf(items[idx]), behavior: reduced ? 'auto' : 'smooth' });
   };
   prevBtn?.addEventListener('click', () => goTo(closestIndex() - 1));
   nextBtn?.addEventListener('click', () => goTo(closestIndex() + 1));
