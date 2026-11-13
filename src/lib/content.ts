@@ -23,6 +23,11 @@ export async function getOffres() {
   return items.sort((a, b) => a.data.ordre - b.data.ordre);
 }
 
+export async function getAvis() {
+  const items = await getCollection('avis');
+  return items.sort((a, b) => a.data.ordre - b.data.ordre);
+}
+
 export async function getParcours() {
   const items = await getCollection('parcours');
   return items.sort((a, b) => a.data.ordre - b.data.ordre);

@@ -1639,3 +1639,85 @@ h3 {
   text-transform: uppercase;
   color: var(--dim);
 }
+
+/* ============================================================================
+   AVIS CLIENTS (Google)
+   ========================================================================== */
+.avis__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.avis__stars {
+  color: var(--accent-text);
+  font-family: Arial, Helvetica, sans-serif; /* glyphe ★ net, la police mono le rend minuscule */
+  font-size: 17px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.avis__summary .avis__stars {
+  font-size: 15px;
+}
+.avis__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.avis__card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  padding: 22px 18px;
+}
+.avis__text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+.avis__author {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.avis__name {
+  font-weight: 600;
+}
+.avis__date {
+  color: var(--dim);
+}
+.avis__more {
+  margin-top: 18px;
+}
+@media (min-width: 768px) {
+  .avis__card {
+    padding: 30px 28px;
+    gap: 20px;
+  }
+  .avis__text {
+    font-size: 24px;
+  }
+  .avis__author {
+    font-size: 11px;
+  }
+}

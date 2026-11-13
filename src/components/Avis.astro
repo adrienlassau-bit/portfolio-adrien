@@ -1,0 +1,53 @@
+---
+import SectionHead from './SectionHead.astro';
+import { getAvis, getSite } from '@/lib/content';
+const avis = await getAvis();
+const site = await getSite();
+
+// Note moyenne affichée en virgule française ("5,0") — calculée à partir des
+// fichiers de src/content/avis, pas saisie à la main.
+const moyenne = avis.length
+  ? (avis.reduce((s, a) => s + a.data.note, 0) / avis.length).toFixed(1).replace('.', ',')
+  : '';
+
+// Typographie française : espace insécable avant ! ? ; : pour que la ponctuation
+// ne se retrouve jamais seule en début de ligne.
+const typo = (t: string) => t.replace(/ ([!?;:])/g, '\u00a0$1');
+const etoiles = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
+---
+
+{
+  avis.length > 0 && (
+    <section class="section" id="avis" aria-labelledby="avis-title" data-section="#avis">
+      <div class="wrap">
+        <SectionHead title={'Avis\nclients'} id="avis-title" />
+
+        <p class="avis__summary reveal">
+          <span class="avis__stars" aria-hidden="true">{etoiles(Math.round(Number(moyenne.replace(',', '.'))))}</span>
+          <span>
+            {moyenne} / 5 · {avis.length} avis Google
+          </span>
+        </p>
+
+        <div class="avis__list reveal" data-stagger="70">
+          {avis.map((a) => (
+            <figure class="avis__card">
+              <p class="avis__stars" role="img" aria-label={`Note : ${a.data.note} sur 5`}>
+                {etoiles(a.data.note)}
+              </p>
+              <blockquote class="avis__text">«&nbsp;{typo(a.data.texte)}&nbsp;»</blockquote>
+              <figcaption class="avis__author">
+                <span class="avis__name">{a.data.auteur}</span>
+                <span class="avis__date">{a.data.date}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <a class="pill rippling avis__more" href={site.avisGoogleUrl} target="_blank" rel="noopener">
+          Voir les avis sur Google &#8599;
+        </a>
+      </div>
+    </section>
+  )
+}

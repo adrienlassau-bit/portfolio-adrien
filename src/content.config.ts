@@ -93,6 +93,20 @@ const parcours = defineCollection({
 });
 
 /* --------------------------------------------------------------------------
+   avis — avis clients Google (copiés à la main depuis la fiche d'établissement)
+   -------------------------------------------------------------------------- */
+const avis = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/avis' }),
+  schema: z.object({
+    auteur: z.string(),
+    note: z.number().int().min(1).max(5),
+    date: z.string(), // ex. "Novembre 2026"
+    texte: z.string(),
+    ordre: z.number().default(0), // le plus récent en premier
+  }),
+});
+
+/* --------------------------------------------------------------------------
    site — données globales (entrée unique "config")
    -------------------------------------------------------------------------- */
 const site = defineCollection({
@@ -111,6 +125,8 @@ const site = defineCollection({
       linkedin: z.string(),
       linkedinUrl: z.string(),
     }),
+    /** lien public vers la fiche d'établissement Google (avis clients) */
+    avisGoogleUrl: z.string().url(),
     /** les 4 chiffres de la bande rouge */
     chiffresGlobaux: z
       .array(z.object({ valeur: z.string(), legende: z.string() }))
@@ -122,4 +138,4 @@ const site = defineCollection({
   }),
 });
 
-export const collections = { projets, offres, parcours, site };
+export const collections = { projets, offres, parcours, avis, site };
