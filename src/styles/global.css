@@ -1666,27 +1666,64 @@ h3 {
 .avis__summary .avis__stars {
   font-size: 15px;
 }
-.avis__list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: 12px;
+/* Carrousel horizontal — mêmes classes .works / .works__track que Travaux
+   récents ; ici seulement les ajustements propres aux cartes de texte. */
+.avis__carousel {
   margin-top: 18px;
 }
+.avis__track {
+  /* cartes de même hauteur dans la rangée (Travaux aligne en haut) */
+  align-items: stretch;
+  gap: 14px;
+}
 .avis__card {
+  flex: none;
+  width: min(78vw, 280px);
+  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   margin: 0;
   border: 1px solid var(--line-strong);
-  padding: 22px 18px;
+  padding: 18px 16px;
+  user-select: none;
 }
 .avis__text {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 18px;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
+  font-size: 14.5px;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  /* avis longs coupés à 7 lignes (bouton « Lire la suite ») pour que la
+     rangée garde une hauteur compacte */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  line-clamp: 7;
+  overflow: hidden;
+}
+.avis__card.is-open .avis__text {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: none;
+}
+.avis__toggle {
+  align-self: flex-start;
+  margin-top: -4px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.avis__toggle:hover,
+.avis__toggle:focus-visible {
+  text-decoration: underline;
 }
 .avis__author {
   display: flex;
@@ -1711,11 +1748,12 @@ h3 {
 }
 @media (min-width: 768px) {
   .avis__card {
-    padding: 30px 28px;
-    gap: 20px;
+    width: 340px;
+    padding: 22px 22px;
+    gap: 14px;
   }
   .avis__text {
-    font-size: 24px;
+    font-size: 16px;
   }
   .avis__author {
     font-size: 11px;

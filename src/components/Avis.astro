@@ -9,6 +9,9 @@ const site = await getSite();
 const moyenne = avis.length
   ? (avis.reduce((s, a) => s + a.data.note, 0) / avis.length).toFixed(1).replace('.', ',')
   : '';
+// Nombre total d'avis sur la fiche Google (site.json), jamais inférieur au
+// nombre d'avis présents sur le site.
+const totalAvis = Math.max(site.avisGoogleTotal ?? 0, avis.length);
 
 // Typographie française : espace insécable avant ! ? ; : pour que la ponctuation
 // ne se retrouve jamais seule en début de ligne.
@@ -25,23 +28,44 @@ const etoiles = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
         <p class="avis__summary reveal">
           <span class="avis__stars" aria-hidden="true">{etoiles(Math.round(Number(moyenne.replace(',', '.'))))}</span>
           <span>
-            {moyenne} / 5 · {avis.length} avis Google
+            {moyenne} / 5 · {totalAvis} avis Google
           </span>
         </p>
 
-        <div class="avis__list reveal" data-stagger="70">
-          {avis.map((a) => (
-            <figure class="avis__card">
-              <p class="avis__stars" role="img" aria-label={`Note : ${a.data.note} sur 5`}>
-                {etoiles(a.data.note)}
-              </p>
-              <blockquote class="avis__text">«&nbsp;{typo(a.data.texte)}&nbsp;»</blockquote>
-              <figcaption class="avis__author">
-                <span class="avis__name">{a.data.auteur}</span>
-                <span class="avis__date">{a.data.date}</span>
-              </figcaption>
-            </figure>
-          ))}
+        {/* Même carrousel que « Travaux récents » (classes .works*, script
+            initCarousel dans app.ts) : compteur, flèches, glisser, aimantation. */}
+        <div class="works avis__carousel reveal" data-stagger="70">
+          <div class="works__track avis__track" data-carousel>
+            {avis.map((a) => (
+              <figure class="avis__card">
+                <p class="avis__stars" role="img" aria-label={`Note : ${a.data.note} sur 5`}>
+                  {etoiles(a.data.note)}
+                </p>
+                <blockquote class="avis__text" data-avis-text>«&nbsp;{typo(a.data.texte)}&nbsp;»</blockquote>
+                <button type="button" class="avis__toggle" data-avis-toggle hidden aria-expanded="false">
+                  Lire la suite
+                </button>
+                <figcaption class="avis__author">
+                  <span class="avis__name">{a.data.auteur}</span>
+                  <span class="avis__date">{a.data.date}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div class="works__dots">
+            <span class="works__count" aria-hidden="true" data-counter>
+              {String(1).padStart(2, '0')} / {String(avis.length).padStart(2, '0')}
+            </span>
+            <span class="works__nav">
+              <button type="button" class="works__navbtn" data-carousel-prev aria-label="Avis précédent">
+                <span aria-hidden="true">&larr;</span>
+              </button>
+              <button type="button" class="works__navbtn" data-carousel-next aria-label="Avis suivant">
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            </span>
+          </div>
         </div>
 
         <a class="pill rippling avis__more" href={site.avisGoogleUrl} target="_blank" rel="noopener">

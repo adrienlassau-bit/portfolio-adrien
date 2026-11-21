@@ -256,14 +256,18 @@ works.forEach((w) => {
 });
 
 /* --------------------------------------------------------------------------
-   8. Carrousel mobile — indicateurs
+   8. Carrousels (Travaux récents, Avis clients) — même système partout :
+   compteur, flèches, glisser à la souris, aimantation
    -------------------------------------------------------------------------- */
-const carousel = document.querySelector<HTMLElement>('[data-carousel]');
-const counter = document.querySelector<HTMLElement>('[data-counter]');
-if (carousel && counter) {
+const initCarousel = (carousel: HTMLElement) => {
+  // compteur et flèches cherchés dans le bloc `.works` du carrousel, pour
+  // que plusieurs carrousels de la page restent indépendants.
+  const worksWrap = carousel.closest<HTMLElement>('.works');
+  const counter = worksWrap?.querySelector<HTMLElement>('[data-counter]');
+  if (!counter) return;
   // ignore les séparateurs de groupe (.works__divider) : seules les vraies
   // vignettes comptent pour l'indexation et le compteur.
-  const items = Array.from(carousel.querySelectorAll<HTMLElement>(':scope > .work'));
+  const items = Array.from(carousel.querySelectorAll<HTMLElement>(':scope > .work, :scope > .avis__card'));
   const total = String(items.length).padStart(2, '0');
   // Position de défilement qui amène une vignette au bord gauche du carrousel.
   // PAS `offsetLeft` : il est mesuré depuis l'ancêtre positionné le plus
@@ -339,7 +343,6 @@ if (carousel && counter) {
 
   // Flèches de navigation — le glisser seul n'est pas assez explicite,
   // ces boutons rendent le défilement évident.
-  const worksWrap = carousel.closest<HTMLElement>('.works');
   const prevBtn = worksWrap?.querySelector<HTMLButtonElement>('[data-carousel-prev]');
   const nextBtn = worksWrap?.querySelector<HTMLButtonElement>('[data-carousel-next]');
   const goTo = (i: number) => {
@@ -404,7 +407,28 @@ if (carousel && counter) {
     },
     { capture: true },
   );
-}
+};
+document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(initCarousel);
+
+// Avis : bouton « Lire la suite » affiché seulement si le texte dépasse les
+// 7 lignes de la carte (cf. .avis__text dans global.css).
+document.querySelectorAll<HTMLElement>('.avis__card').forEach((card) => {
+  const text = card.querySelector<HTMLElement>('[data-avis-text]');
+  const btn = card.querySelector<HTMLButtonElement>('[data-avis-toggle]');
+  if (!text || !btn) return;
+  const check = () => {
+    if (card.classList.contains('is-open')) return;
+    btn.hidden = text.scrollHeight <= text.clientHeight + 1;
+  };
+  check();
+  window.addEventListener('resize', check, { passive: true });
+  document.fonts?.ready.then(check);
+  btn.addEventListener('click', () => {
+    const open = card.classList.toggle('is-open');
+    btn.textContent = open ? 'Réduire' : 'Lire la suite';
+    btn.setAttribute('aria-expanded', String(open));
+  });
+});
 
 /* --------------------------------------------------------------------------
    9. Lightbox

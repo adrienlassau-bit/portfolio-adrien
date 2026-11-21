@@ -127,6 +127,11 @@ const site = defineCollection({
     }),
     /** lien public vers la fiche d'établissement Google (avis clients) */
     avisGoogleUrl: z.string().url(),
+    /** nombre total d'avis affiché par Google (« (5 avis) ») — peut dépasser
+        le nombre d'avis écrits recopiés dans src/content/avis (avis sans
+        texte, avis < 4 étoiles non affichés…). Mis à jour par la tâche
+        hebdomadaire. */
+    avisGoogleTotal: z.number().int().min(0).optional(),
     /** les 4 chiffres de la bande rouge */
     chiffresGlobaux: z
       .array(z.object({ valeur: z.string(), legende: z.string() }))
